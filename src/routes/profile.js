@@ -5,9 +5,13 @@ const router = Router();
 
 router.get('/', async (req, res, next) => {
   try {
-    const { data, error } = await supabase.from('profile').select('*').eq('id', 1).single();
+    let { data, error } = await supabase.from('profile').select('*').eq('id', 1).maybeSingle();
     if (error) throw error;
-    res.json(data);
+    res.json(data ?? {
+      id: 1, name: 'אלוף', calorie_target: 3000, protein_target: 160,
+      carbs_target: 380, fat_target: 90, water_target_ml: 3000,
+      current_weight: null, goal_weight: null,
+    });
   } catch (err) {
     next(err);
   }

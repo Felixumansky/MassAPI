@@ -8,6 +8,7 @@ import mealsRouter from './routes/meals.js';
 import waterRouter from './routes/water.js';
 import weightsRouter from './routes/weights.js';
 import summaryRouter from './routes/summary.js';
+import checkinsRouter from './routes/checkins.js';
 
 const app = express();
 app.use(cors());
@@ -23,6 +24,7 @@ app.use('/api/foods', foodsRouter);
 app.use('/api/meals', mealsRouter);
 app.use('/api/water', waterRouter);
 app.use('/api/weights', weightsRouter);
+app.use('/api/checkins', checkinsRouter);
 app.use('/api', summaryRouter);
 
 app.use((err, req, res, next) => {

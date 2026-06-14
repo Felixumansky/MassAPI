@@ -28,7 +28,10 @@ npm run dev
 | GET | `/api/foods?q=חיפוש` | קטלוג מאכלים |
 | POST | `/api/foods` | מאכל חדש לקטלוג |
 | POST | `/api/meals` | רישום ארוחה |
+| POST | `/api/meals/:id/duplicate` | שכפול ארוחה לתאריך אחר |
 | DELETE | `/api/meals/:id` | מחיקת ארוחה |
 | POST | `/api/water` | רישום מים |
 | DELETE | `/api/water/:id` | מחיקת רישום מים |
 | GET / POST | `/api/weights` | מעקב משקל (upsert לפי יום) |
+| GET / PUT | `/api/checkins?date=YYYY-MM-DD` | צ'ק־אין יומי: אימון, שינה, תיאבון והערה |
+| GET | `/api/insights?days=30&end=YYYY-MM-DD` | מדדי עקביות ועמידה ביעדים |

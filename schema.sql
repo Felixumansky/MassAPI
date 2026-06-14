@@ -17,7 +17,7 @@ insert into profile (id) values (1) on conflict do nothing;
 
 create table if not exists foods (
   id uuid primary key default gen_random_uuid(),
-  name text not null,
+  name text not null unique,
   calories_per_100 numeric not null,
   protein_per_100 numeric not null default 0,
   carbs_per_100 numeric not null default 0,
@@ -57,6 +57,23 @@ create table if not exists weight_logs (
   created_at timestamptz default now()
 );
 
+create table if not exists daily_checkins (
+  id uuid primary key default gen_random_uuid(),
+  date date not null unique,
+  trained boolean not null default false,
+  sleep_hours numeric check (sleep_hours is null or (sleep_hours >= 0 and sleep_hours <= 24)),
+  appetite int check (appetite is null or appetite between 1 and 5),
+  note text check (note is null or char_length(note) <= 500),
+  muscles text[] not null default '{}',
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+alter table daily_checkins add column if not exists muscles text[] not null default '{}';
+create index if not exists daily_checkins_date_idx on daily_checkins(date);
+
+-- מבטיח ייחודיות שם גם בטבלאות קיימות (כדי ש-on conflict ימנע כפילויות)
+create unique index if not exists foods_name_unique on foods(name);
+
 -- קטלוג מאכלים ישראלי בסיסי (ערכים ל-100 גרם)
 insert into foods (name, calories_per_100, protein_per_100, carbs_per_100, fat_per_100, default_amount, unit) values
   ('חזה עוף בגריל', 165, 31, 0, 3.6, 150, 'גרם'),
@@ -89,4 +106,4 @@ insert into foods (name, calories_per_100, protein_per_100, carbs_per_100, fat_p
   ('קינואה מבושלת', 120, 4.4, 21, 1.9, 185, 'גרם'),
   ('שמן זית', 884, 0, 0, 100, 14, 'מ"ל'),
   ('דבש', 304, 0.3, 82, 0, 21, 'גרם')
-on conflict do nothing;
+on conflict (name) do nothing;
