@@ -9,6 +9,8 @@ import waterRouter from './routes/water.js';
 import weightsRouter from './routes/weights.js';
 import summaryRouter from './routes/summary.js';
 import checkinsRouter from './routes/checkins.js';
+import authRouter from './routes/auth.js';
+import stateRouter from './routes/state.js';
 
 const app = express();
 app.use(cors());
@@ -19,6 +21,8 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api', requireDb);
+app.use('/api/auth', authRouter);
+app.use('/api/state', stateRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/foods', foodsRouter);
 app.use('/api/meals', mealsRouter);
